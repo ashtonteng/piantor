@@ -8,24 +8,54 @@
 enum custom_keycodes {
   UPDIR = SAFE_RANGE,
   RPIPE,
-  // Other keycodes...
+  VIMSAVE,
+  SCRNSEL,
+  SCRNFUL,
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
   switch (keycode) {
-    case UPDIR:  // Types ../ to go up a directory on the shell.
+    case UPDIR:
       if (record->event.pressed) {
         SEND_STRING("../");
       }
       return false;
 
-    case RPIPE:  // Types triple equal ===
+    case RPIPE:
       if (record->event.pressed) {
         SEND_STRING("%>%");
       }
       return false;
 
-    // Other macros...
+    case VIMSAVE:
+      if (record->event.pressed) {
+        tap_code(KC_ESC);
+        SEND_STRING(":wq");
+        tap_code(KC_ENT);
+      }
+      return false;
+
+    case SCRNSEL:
+      if (record->event.pressed) {
+        register_code(KC_LGUI);
+        register_code(KC_LCTL);
+        register_code(KC_LSFT);
+        tap_code(KC_4);
+        unregister_code(KC_LGUI);
+        unregister_code(KC_LCTL);
+        unregister_code(KC_LSFT);
+      }
+      return false;
+
+    case SCRNFUL:
+      if (record->event.pressed) {
+        register_code(KC_LGUI);
+        register_code(KC_LSFT);
+        tap_code(KC_3);
+        unregister_code(KC_LGUI);
+        unregister_code(KC_LSFT);
+      }
+      return false;
   }
   return true;
 }
@@ -55,11 +85,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │   │   │   │ ' │ [ │ < │       │ > │ ] │ " │ ` │M0 │PUP│
+      * │   │   │   │ ' │ [ │ < │       │ > │ ] │ " │ ` │../│PUP│
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │   │   │ = │ + │ ( │ { │       │ } │ ) │ - │ _ │M1 │PDN│
+      * │SSL│   │ = │ + │ ( │ { │       │ } │ ) │ - │ _ │%>%│PDN│
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼─-─┼───┤
-      * │   │   │ | │ \ │ ~ │ / │       │Lef│Dow│Up │Rig│M2 │CAP│
+      * │SSF│   │ | │ \ │ ~ │ / │       │Lef│Dow│Up │Rig│:wq│CAP│
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
       *               │   ├───┐           ┌───┤   │
@@ -68,10 +98,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [1] = LAYOUT_split_3x6_3(
-        KC_NO,    KC_NO,    KC_NO,        KC_QUOT,     KC_LBRC,    S(KC_COMM),                        S(KC_DOT),     KC_RBRC,    S(KC_QUOT),  KC_GRV,         UPDIR,    KC_PGUP,
-        KC_NO,    KC_NO,    KC_EQL,       S(KC_EQL),   S(KC_9),    S(KC_LBRC),                        S(KC_RBRC),    S(KC_0),    KC_MINUS,    S(KC_MINUS),    RPIPE,    KC_PGDN,
-        KC_NO,    KC_NO,    S(KC_BSLS),   KC_BSLS,     KC_GRV,     KC_SLSH,                           KC_LEFT,       KC_DOWN,    KC_UP,       KC_RIGHT,       KC_NO,    KC_CAPS,
-                                                       KC_TRNS, KC_TRNS, KC_TRNS,           KC_TRNS,  KC_TRNS,  KC_TRNS
+        KC_NO,      KC_NO,    KC_NO,        KC_QUOT,     KC_LBRC,    S(KC_COMM),                        S(KC_DOT),     KC_RBRC,    S(KC_QUOT),  KC_GRV,         UPDIR,      KC_PGUP,
+        SCRNSEL,    KC_NO,    KC_EQL,       S(KC_EQL),   S(KC_9),    S(KC_LBRC),                        S(KC_RBRC),    S(KC_0),    KC_MINUS,    S(KC_MINUS),    RPIPE,      KC_PGDN,
+        SCRNFUL,    KC_NO,    S(KC_BSLS),   KC_BSLS,     KC_GRV,     KC_SLSH,                           KC_LEFT,       KC_DOWN,    KC_UP,       KC_RIGHT,       VIMSAVE,    KC_CAPS,
+                                                         KC_TRNS, KC_TRNS, KC_TRNS,           KC_TRNS,  KC_TRNS,  KC_TRNS
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
