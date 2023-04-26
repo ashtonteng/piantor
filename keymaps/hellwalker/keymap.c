@@ -3,6 +3,35 @@
 
 #include QMK_KEYBOARD_H
 
+// MACROS
+
+enum custom_keycodes {
+  UPDIR = SAFE_RANGE,
+  RPIPE,
+  // Other keycodes...
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+  switch (keycode) {
+    case UPDIR:  // Types ../ to go up a directory on the shell.
+      if (record->event.pressed) {
+        SEND_STRING("../");
+      }
+      return false;
+
+    case RPIPE:  // Types triple equal ===
+      if (record->event.pressed) {
+        SEND_STRING("%>%");
+      }
+      return false;
+
+    // Other macros...
+  }
+  return true;
+}
+
+// KEYMAP
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -26,11 +55,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │   │   │   │ ' │ [ │ < │       │ > │ ] │ " │ ` │   │   │
+      * │   │   │   │ ' │ [ │ < │       │ > │ ] │ " │ ` │M0 │   │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │   │   │ = │ + │ ( │ { │       │ } │ ) │ - │ _ │   │   │
-      * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │   │   │ | │ \ │ ~ │ / │       │Lef│Dow│Up │Rig│   │   │
+      * │   │   │ = │ + │ ( │ { │       │ } │ ) │ - │ _ │M1 │   │
+      * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼─-─┼───┤
+      * │   │   │ | │ \ │ ~ │ / │       │Lef│Dow│Up │Rig│M2 │   │
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
       *               │   ├───┐           ┌───┤   │
@@ -39,8 +68,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [1] = LAYOUT_split_3x6_3(
-        KC_NO,    KC_NO,    KC_NO,        KC_QUOT,     KC_LBRC,    S(KC_COMM),                        S(KC_DOT),     KC_RBRC,    S(KC_QUOT),  KC_GRV,         KC_NO,    KC_NO,
-        KC_NO,    KC_NO,    KC_EQL,       S(KC_EQL),   S(KC_9),    S(KC_LBRC),                        S(KC_RBRC),    S(KC_0),    KC_MINUS,    S(KC_MINUS),    KC_NO,    KC_NO,
+        KC_NO,    KC_NO,    KC_NO,        KC_QUOT,     KC_LBRC,    S(KC_COMM),                        S(KC_DOT),     KC_RBRC,    S(KC_QUOT),  KC_GRV,         UPDIR,    KC_NO,
+        KC_NO,    KC_NO,    KC_EQL,       S(KC_EQL),   S(KC_9),    S(KC_LBRC),                        S(KC_RBRC),    S(KC_0),    KC_MINUS,    S(KC_MINUS),    RPIPE,    KC_NO,
         KC_NO,    KC_NO,    S(KC_BSLS),   KC_BSLS,     KC_GRV,     KC_SLSH,                           KC_LEFT,       KC_DOWN,    KC_UP,       KC_RIGHT,       KC_NO,    KC_NO,
                                                        KC_TRNS, KC_TRNS, KC_TRNS,           KC_TRNS,  KC_TRNS,  KC_TRNS
     ),
