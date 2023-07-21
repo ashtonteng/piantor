@@ -60,6 +60,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
   return true;
 }
 
+// TAP DANCE
+
+enum {
+    TD_ESC_CAPS,
+    TD_PDN_PUP,
+};
+
+tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for Escape, twice for Caps Lock
+    [TD_ESC_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_CAPS),
+    // Tap once for Page Up, twice for Page Down
+    [TD_PDN_PUP] = ACTION_TAP_DANCE_DOUBLE(KC_PAGE_DOWN, KC_PAGE_UP)
+};
+
 // KEYMAP
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -69,27 +83,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
       * │Esc│ A │ S │ D │ F │ G │       │ H │ J │ K │ L │ ; │ ' │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │Ctl│ Z │ X │ C │ V │ B │       │ N │ M │ , │ . │ / │Sft│
+      * │Ctl│ Z │ X │ C │ V │ B │       │ N │ M │ , │ . │ / │PDN│
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
       *               │Sft├───┐           ┌───┤   │
       *               └───┤Bsp├───┐   ┌───┤Spc├───┘
-      *                   └───┤GUI│   │L2 ├───┘
+      *                   └───┤GUI│   │L1 ├───┘
       *                       └───┘   └───┘
       */
     [0] = LAYOUT_split_3x6_3(
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                               KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
-        KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                               KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-        OSM(MOD_LCTL), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                                            OSM(MOD_LSFT), KC_BSPC, OSM(MOD_LGUI),        OSL(1),  KC_SPC,  KC_TRNS
+        TD(TD_ESC_CAPS),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+        OSM(MOD_LCTL), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TD(TD_PDN_PUP),
+                                            OSM(MOD_LSFT), KC_BSPC, OSM(MOD_LGUI),       OSL(1),  KC_SPC,  KC_TRNS
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │   │   │   │ " │ [ │ < │       │ > │ ] │ ' │ ` │../│PUP│
+      * │   │   │   │ " │ [ │ < │       │ > │ ] │ ' │ ` │../│   │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │SSL│   │ = │ + │ ( │ { │       │ } │ ) │ - │ _ │%>%│PDN│
+      * │SSL│   │ = │ + │ ( │ { │       │ } │ ) │ - │ _ │%>%│   │
       * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼─-─┼───┤
-      * │SSF│   │ | │ \ │ ~ │ / │       │Lef│Dow│Up │Rig│:wq│CAP│
+      * │SSF│   │ | │ \ │ ~ │ / │       │Lef│Dow│Up │Rig│:wq│   │
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
       *               │   ├───┐           ┌───┤   │
@@ -98,10 +112,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *                       └───┘   └───┘
       */
     [1] = LAYOUT_split_3x6_3(
-        KC_NO,      KC_NO,    KC_NO,        S(KC_QUOT),  KC_LBRC,    S(KC_COMM),                        S(KC_DOT),     KC_RBRC,    KC_QUOT,    KC_GRV,         UPDIR,      KC_PGUP,
-        SCRNSEL,    KC_NO,    KC_EQL,       S(KC_EQL),   S(KC_9),    S(KC_LBRC),                        S(KC_RBRC),    S(KC_0),    KC_MINUS,   S(KC_MINUS),    RPIPE,      KC_PGDN,
-        SCRNFUL,    KC_NO,    S(KC_BSLS),   KC_BSLS,     S(KC_GRV),     KC_SLSH,                        KC_LEFT,       KC_DOWN,    KC_UP,      KC_RIGHT,       VIMSAVE,    KC_CAPS,
-                                                         KC_TRNS, KC_TRNS, KC_TRNS,           KC_TRNS,  KC_TRNS,  KC_TRNS
+        KC_NO,      KC_NO,    KC_NO,        S(KC_QUOT),  KC_LBRC,    S(KC_COMM),                        S(KC_DOT),     KC_RBRC,    KC_QUOT,    KC_GRV,         UPDIR,      KC_TRNS,
+        SCRNSEL,    KC_NO,    KC_EQL,       S(KC_EQL),   S(KC_9),    S(KC_LBRC),                        S(KC_RBRC),    S(KC_0),    KC_MINUS,   S(KC_MINUS),    RPIPE,      KC_TRNS,
+        SCRNFUL,    KC_NO,    S(KC_BSLS),   KC_BSLS,     S(KC_GRV),     KC_SLSH,                        KC_LEFT,       KC_DOWN,    KC_UP,      KC_RIGHT,       VIMSAVE,    KC_TRNS,
+                                                         KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
