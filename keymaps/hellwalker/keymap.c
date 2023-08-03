@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       * │Ctl│ Z │ X │ C │ V │ B │       │ N │ M │ , │ . │ / │PDN│
       * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
       *               ┌───┐                   ┌───┐
-      *               │Sft├───┐           ┌───┤   │
+      *               │Sft├───┐           ┌───┤Alt│
       *               └───┤Bsp├───┐   ┌───┤Spc├───┘
       *                   └───┤GUI│   │L1 ├───┘
       *                       └───┘   └───┘
@@ -95,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                               KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
         TD(TD_ESC_CAPS),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         OSM(MOD_LCTL), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TD(TD_PDN_PUP),
-                                            OSM(MOD_LSFT), KC_BSPC, OSM(MOD_LGUI),       OSL(1),  KC_SPC,  KC_TRNS
+                                            OSM(MOD_LSFT), KC_BSPC, OSM(MOD_LGUI),       OSL(1),  KC_SPC,  KC_LOPT
     ),
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -145,7 +145,6 @@ const uint16_t PROGMEM mo_layer2_combo1[] = {KC_N, KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM mo_layer2_combo2[] = {KC_C, KC_V, KC_B, COMBO_END};
 const uint16_t PROGMEM enter_combo[] = {KC_H, KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM down_up_7_combo[] = {KC_DOWN, KC_UP, COMBO_END};
-const uint16_t PROGMEM shift_delete_option_combo[] = {KC_LSFT, KC_BSPC, COMBO_END};
 const uint16_t PROGMEM s_kc1_combo[] = {KC_Q, KC_A, COMBO_END};
 const uint16_t PROGMEM s_kc2_combo[] = {KC_W, KC_S, COMBO_END};
 const uint16_t PROGMEM s_kc3_combo[] = {KC_E, KC_D, COMBO_END};
@@ -160,7 +159,6 @@ combo_t key_combos[COMBO_COUNT] = {
     COMBO(mo_layer2_combo2, MO(2)),
     COMBO(enter_combo, KC_ENT),
     COMBO(down_up_7_combo, KC_7),
-    COMBO(shift_delete_option_combo, KC_LOPT),
     COMBO(s_kc1_combo, S(KC_1)),
     COMBO(s_kc2_combo, S(KC_2)),
     COMBO(s_kc3_combo, S(KC_3)),
