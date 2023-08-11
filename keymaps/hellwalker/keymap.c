@@ -144,7 +144,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM mo_layer2_combo1[] = {KC_N, KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM mo_layer2_combo2[] = {KC_C, KC_V, KC_B, COMBO_END};
 const uint16_t PROGMEM enter_combo[] = {KC_H, KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM down_up_7_combo[] = {KC_DOWN, KC_UP, COMBO_END};
+const uint16_t PROGMEM n_m_comma_dot_7_combo[] = {KC_N, KC_M, KC_COMM, KC_DOT, COMBO_END};
+const uint16_t PROGMEM n_m_left_combo[] = {KC_N, KC_M, COMBO_END};
+const uint16_t PROGMEM m_comma_down_combo[] = {KC_M, KC_COMM, COMBO_END};
+const uint16_t PROGMEM j_k_up_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM comma_dot_right_combo[] = {KC_COMM, KC_DOT, COMBO_END};
 const uint16_t PROGMEM s_kc1_combo[] = {KC_Q, KC_A, COMBO_END};
 const uint16_t PROGMEM s_kc2_combo[] = {KC_W, KC_S, COMBO_END};
 const uint16_t PROGMEM s_kc3_combo[] = {KC_E, KC_D, COMBO_END};
@@ -158,7 +162,11 @@ combo_t key_combos[COMBO_COUNT] = {
     COMBO(mo_layer2_combo1, MO(2)),
     COMBO(mo_layer2_combo2, MO(2)),
     COMBO(enter_combo, KC_ENT),
-    COMBO(down_up_7_combo, KC_7),
+    COMBO(n_m_comma_dot_7_combo, KC_7),
+    COMBO(n_m_left_combo, KC_LEFT),
+    COMBO(m_comma_down_combo, KC_DOWN),
+    COMBO(j_k_up_combo, KC_UP),
+    COMBO(comma_dot_right_combo, KC_RIGHT),
     COMBO(s_kc1_combo, S(KC_1)),
     COMBO(s_kc2_combo, S(KC_2)),
     COMBO(s_kc3_combo, S(KC_3)),
